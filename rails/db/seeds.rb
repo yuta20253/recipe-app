@@ -9,3 +9,141 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+user = User.create!(family_name: '長澤', given_name: 'まさみ', age: 37, gender: 0, email: 'masami@example.com', password: 'password')
+# レシピデータ（実在レシピを元にしたアレンジ）
+recipes_data = [
+  {
+    title: 'カレーライス',
+    description: '家庭の定番。野菜と肉を煮込んだスパイシーなカレー。',
+    instructions: "1. 玉ねぎ、じゃがいも、人参を一口大に切る。\n2. 鍋に油を熱し、野菜と肉を炒める。\n3. 水を加えて煮込み、カレールウを加えてさらに煮る。\n4. ご飯にかけて完成。",
+    ingredients: {
+      '玉ねぎ' => '1個', 'じゃがいも' => '2個', '人参' => '1本',
+      '豚肉' => '200g', 'カレールウ' => '1/2箱', 'ご飯' => '適量',
+      'サラダ油' => '大さじ1', '水' => '500ml'
+    }
+  },
+  {
+    title: 'ナポリタン',
+    description: '昭和の洋食の定番。ケチャップで炒める甘酸っぱいスパゲッティ。',
+    instructions: "1. パスタを茹でる。\n2. 玉ねぎとピーマンをスライス、ウインナーを斜め切り。\n3. フライパンで具材を炒め、ケチャップで味付け。\n4. パスタを加えて炒める。",
+    ingredients: {
+      'スパゲッティ' => '200g', '玉ねぎ' => '1/2個', 'ピーマン' => '1個',
+      'ウインナー' => '3本', 'ケチャップ' => '大さじ4', 'サラダ油' => '大さじ1'
+    }
+  },
+  {
+    title: '冷やし中華',
+    description: '夏の定番。涼しげな彩りの冷たい中華麺。',
+    instructions: "1. 麺を茹でて冷水でしめる。\n2. 具材を細切りにする（きゅうり、ハム、卵焼きなど）。\n3. 麺に具をのせて、たれをかける。",
+    ingredients: {
+      '中華麺' => '2玉', 'ハム' => '4枚', '卵' => '2個', 'きゅうり' => '1本',
+      'トマト' => '1個', '酢' => '大さじ2', '醤油' => '大さじ2',
+      '砂糖' => '小さじ1', 'ごま油' => '小さじ1'
+    }
+  },
+  {
+    title: 'お好み焼き',
+    description: '具材を混ぜて焼くだけの手軽な粉もの料理。',
+    instructions: "1. キャベツを千切りにする。\n2. 生地の材料と混ぜ、豚バラをのせて焼く。\n3. 両面焼いてソース・マヨネーズをかける。",
+    ingredients: {
+      'キャベツ' => '1/4個', '卵' => '1個', '小麦粉' => '100g', '水' => '100ml',
+      '豚肉' => '100g', 'お好みソース' => '適量', 'マヨネーズ' => '適量'
+    }
+  },
+  {
+    title: '照り焼きチキン',
+    description: '甘辛いたれが食欲をそそる人気の鶏料理。',
+    instructions: "1. 鶏もも肉に下味をつける。\n2. フライパンで焼き、たれを絡めて照りを出す。",
+    ingredients: {
+      '鶏もも肉' => '1枚', '醤油' => '大さじ2', 'みりん' => '大さじ2',
+      '砂糖' => '小さじ2', '酒' => '大さじ1'
+    }
+  },
+  {
+    title: '味噌汁',
+    description: '和食の基本。だしと味噌の香りがほっとする一杯。',
+    instructions: "1. 豆腐はさいの目に切り、わかめは水で戻す。\n2. 鍋にだしを沸かし、具材を加える。\n3. 火を止めてから味噌を溶き入れる。",
+    ingredients: {
+      '豆腐' => '1/2丁', '乾燥わかめ' => '5g', 'だし汁' => '400ml', '味噌' => '大さじ2'
+    }
+  },
+  {
+    title: '肉じゃが',
+    description: '甘辛く煮込んだ日本の家庭料理の代表格。',
+    instructions: "1. 玉ねぎ、じゃがいも、人参を一口大に切る。\n2. 鍋で肉と野菜を炒め、だし・調味料で煮込む。\n3. 煮汁がなくなるまで煮る。",
+    ingredients: {
+      'じゃがいも' => '2個', '人参' => '1本', '玉ねぎ' => '1個', '牛肉' => '200g',
+      '醤油' => '大さじ3', 'みりん' => '大さじ2', '砂糖' => '大さじ1', 'だし汁' => '300ml'
+    }
+  },
+  {
+    title: '親子丼',
+    description: '鶏肉と卵を甘辛く煮てご飯にのせた丼料理。',
+    instructions: "1. 玉ねぎと鶏肉を切り、鍋で煮る。\n2. 調味料を加えて火が通ったら、溶き卵を回しかける。\n3. ご飯にのせて完成。",
+    ingredients: {
+      '鶏もも肉' => '150g', '玉ねぎ' => '1/2個', '卵' => '2個', '醤油' => '大さじ2',
+      'みりん' => '大さじ2', 'だし汁' => '100ml', 'ご飯' => '1膳'
+    }
+  },
+  {
+    title: 'ハンバーグ',
+    description: '子どもから大人まで大好きな定番洋食。',
+    instructions: "1. 玉ねぎを炒めて冷ます。\n2. 材料をすべて混ぜてこねる。\n3. 形成し、両面焼く。\n4. ソースを作ってかける。",
+    ingredients: {
+      '合挽き肉' => '250g', '玉ねぎ' => '1個', 'パン粉' => '1/2カップ', '卵' => '1個',
+      '塩こしょう' => '少々', 'ウスターソース' => '大さじ2', 'ケチャップ' => '大さじ2'
+    }
+  },
+  {
+    title: '生姜焼き',
+    description: 'しょうがが香る豚肉の甘辛炒め。',
+    instructions: "1. 豚肉を調味料に漬け込む。\n2. フライパンで焼く。\n3. たれを絡めて照りを出す。",
+    ingredients: {
+      '豚ロース肉' => '200g', '醤油' => '大さじ2', 'みりん' => '大さじ1',
+      '酒' => '大さじ1', 'おろし生姜' => '小さじ1'
+    }
+  },
+  {
+    title: 'オムライス',
+    description: 'ケチャップライスを卵で包んだ洋風ご飯。',
+    instructions: "1. 鶏肉・玉ねぎを炒め、ご飯とケチャップを加える。\n2. 卵を焼いて包む。\n3. 上にケチャップをかける。",
+    ingredients: {
+      'ご飯' => '1膳', '鶏もも肉' => '100g', '玉ねぎ' => '1/4個', '卵' => '2個',
+      'ケチャップ' => '大さじ3', 'サラダ油' => '小さじ1'
+    }
+  },
+  {
+    title: '焼きそば',
+    description: 'ソースの香ばしい香りが食欲をそそる。',
+    instructions: "1. 肉と野菜を炒める。\n2. 麺を加えて炒める。\n3. ソースで味付けして完成。",
+    ingredients: {
+      '中華麺' => '1玉', '豚肉' => '100g', 'キャベツ' => '2枚', '人参' => '1/3本',
+      'ソース' => '大さじ2', 'サラダ油' => '小さじ1'
+    }
+  }
+]
+
+ingredients_by_name = Ingredient.all.index_by(&:name)
+
+recipes_data.each_with_index do |recipe_data, _idx|
+  recipe = Recipe.create!(
+    user: user,
+    title: recipe_data[:title],
+    description: recipe_data[:description],
+    instructions: recipe_data[:instructions],
+    difficulty: Recipe.difficulties.keys.sample,
+    cooking_time: rand(10..60),
+    total_time: rand(20..90),
+    servings: "#{rand(1..4)}人前"
+  )
+
+  recipe_data[:ingredients].each do |name, quantity|
+    ingredient = ingredients_by_name[name] || Ingredient.find_or_create_by!(name: name)
+
+    # ここで重複しないようfind_or_initialize_byを使いquantityをセットして保存する
+    ri = RecipeIngredient.find_or_initialize_by(recipe: recipe, ingredient: ingredient)
+    ri.quantity = quantity
+    ri.save!
+  end
+end
