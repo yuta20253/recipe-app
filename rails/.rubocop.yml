@@ -1,0 +1,27 @@
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/*'
+    - 'spec/**/*'
+
+Metrics/MethodLength:
+  Max: 15
+
+Layout/LineLength:
+  Max: 140
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'bin/*'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'bin/*'
+
+Layout/LineLength:
+  Max: 140
+  Exclude:
+    - 'bin/*'
+    - 'config/initializers/devise.rb'
