@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RecipeIngredient < ActiveRecord::Migration[7.1]
+class CreateRecipeIngredients < ActiveRecord::Migration[7.1]
   def change
     create_table :recipe_ingredients do |t|
       t.belongs_to :recipe, foreign_key: true, null: false
