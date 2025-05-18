@@ -19,7 +19,13 @@ module Users
 
     def edit; end
 
-    def update; end
+    def update
+      if @recipe.update(recipe_params)
+        redirect_to [:users, @recipe]
+      else
+        render 'edit'
+      end
+    end
 
     def destroy; end
 

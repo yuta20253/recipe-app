@@ -1,31 +1,33 @@
-<h2>レシピ一覧</h2>
-<div>
-  <%= link_to "新しいレシピを登録", :new_users_recipe %>
-</div>
-<div>
-  <table>
-    <thead>
-      <tr>
-        <th>登録日</th>
-        <th>レシピ</th>
-        <th>詳細</th>
-        <th>編集</th>
-        <th>削除</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @recipes.each do |recipe| %>
+<div class="w-full justify-content alias-content">
+  <h2>レシピ一覧</h2>
+  <div>
+    <%= link_to "新しいレシピを登録", :new_users_recipe %>
+  </div>
+  <div>
+    <table>
+      <thead>
         <tr>
-          <td><%= recipe.created_at.strftime("%Y-%m") %></td>
-          <td><%= recipe.title %></td>
-          <td><%= link_to "詳細", users_recipe_path(recipe) %></td>
-          <td><%= link_to "編集", edit_users_recipe_path(recipe) %></td>
-          <td><%= link_to "削除", users_recipe_path(recipe), data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
+          <th>登録日</th>
+          <th>レシピ</th>
+          <th>詳細</th>
+          <th>編集</th>
+          <th>削除</th>
         </tr>
-      <% end %>
-    <tbody>
-  </table>
-</div>
-<div>
-  <%= link_to "ユーザートップ", users_path %>
+      </thead>
+      <tbody>
+        <% @recipes.each do |recipe| %>
+          <tr>
+            <td><%= recipe.created_at.strftime("%Y-%m") %></td>
+            <td><%= recipe.title %></td>
+            <td><%= link_to "詳細", users_recipe_path(recipe) %></td>
+            <td><%= link_to "編集", edit_users_recipe_path(recipe) %></td>
+            <td><%= link_to "削除", users_recipe_path(recipe), data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
+          </tr>
+        <% end %>
+      <tbody>
+    </table>
+  </div>
+  <div>
+    <%= link_to "ユーザートップ", users_path %>
+  </div>
 </div>

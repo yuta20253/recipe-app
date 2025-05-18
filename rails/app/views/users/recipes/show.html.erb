@@ -1,24 +1,48 @@
 <div>
   <div>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+    <div>
+      <div>
+       今日のレシピ
+      </div>
+      <div>
+        <h1><%= @recipe.title %></h1>
+      </div>
+      <div>
+        <p><%= @recipe.description %></p>
+        <span>
+          <img>
+        </span>
+        <p><span>登録者:</span><%= @recipe.user.family_name + @recipe.user.given_name %></p>
+      </div>
+      <div>
+        <div>
+          <div>
+            <div>
+              <div>調理時間:<span><%= @recipe.cooking_time %>分</span></div>
+              <div>難易度:<span><%= @recipe.difficulty %></span></div>
+            </div>
+            <div>
+              <p><%= simple_format(@recipe.instructions) %></p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>材料</h3>
+          <ol>
+            <% @recipe.ingredients.each do | ingredient | %>
+              <li><%= ingredient.name %></li>
+            <% end %>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div>
+    <%= link_to "レシピ一覧", users_recipes_path %>
   </div>
   <div>
-   <div>
-     今日のレシピ
-   </div>
-    <div>
-      <h1><%= @recipe.title %></h1>
-    </div>
-    <div>
-      <p><%= @recipe.description %></p>
-      <span>
-        <img>
-      </span>
-      <p></p>
-    </div>
+    <%= link_to "編集", edit_users_recipe_path(@recipe) %>
   </div>
 </div>
