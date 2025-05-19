@@ -7,13 +7,25 @@ module Users
 
     def index
       @recipes = Recipe.includes(:ingredients)
+                       .search_recipe_name(params[:title])
+                       .select_difficulty(params[:difficulty])
+                       .registration_month(params[:created_at])
     end
 
     def new
       @recipe = Recipe.new
     end
 
-    def create; end
+    def create
+      @recipe = Recipe.new(recipe_params)
+      @recipe.user_id = current_user.id
+      if @recipe.save
+        redirect_to [:users, :recipes]
+      else
+        logger.debug "保存失敗: #{@recipe.errors.full_messages}"
+        render 'new'
+      end
+    end
 
     def show; end
 
