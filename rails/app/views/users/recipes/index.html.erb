@@ -1,7 +1,31 @@
-<div class="w-full justify-content alias-content">
+<div class="container">
   <h2>レシピ一覧</h2>
   <div>
-    <%= link_to "新しいレシピを登録", :new_users_recipe %>
+    <%= link_to "新しいレシピを登録", :new_users_recipe, class: "btn btn-first" %>
+  </div>
+  <div>
+    <%= form_with url: users_recipes_path, method: :get, local: true do |form| %>
+      <div>
+        <%= form.label :title, "レシピ名" %>
+        <%= form.text_field :title, value: params[:title]  %>
+      </div>
+      <div>
+        <%= form.label :difficulty, "難易度" %>
+        <%= form.select :difficulty, Recipe.distinct.pluck(:difficulty), include_blank: true, selected: params[:difficulty] %>
+      </div>
+      <div>
+        <%= form.label :created_at, "登録日時" %>
+        <%= form.month_field :created_at, value: params[:created_at] %>
+      </div>
+      <div class="">
+        <div>
+          <%= form.submit "検索", class: 'btn btn-first' %>
+        </div>
+        <div>
+          <%= link_to 'リセット', users_recipes_path, class: 'btn btn-first' %>
+        </div>
+      </div>
+    <% end %>
   </div>
   <div>
     <table>
@@ -19,15 +43,15 @@
           <tr>
             <td><%= recipe.created_at.strftime("%Y-%m") %></td>
             <td><%= recipe.title %></td>
-            <td><%= link_to "詳細", users_recipe_path(recipe) %></td>
-            <td><%= link_to "編集", edit_users_recipe_path(recipe) %></td>
-            <td><%= link_to "削除", users_recipe_path(recipe), data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
+            <td><%= link_to "詳細", users_recipe_path(recipe), class: "btn btn-first" %></td>
+            <td><%= link_to "編集", edit_users_recipe_path(recipe), class: "btn btn-first" %></td>
+            <td><%= link_to "削除", users_recipe_path(recipe), class: "btn btn-first", data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
           </tr>
         <% end %>
       <tbody>
     </table>
   </div>
   <div>
-    <%= link_to "ユーザートップ", users_path %>
+    <%= link_to "ユーザートップ", users_path, class: "btn btn-first" %>
   </div>
 </div>
