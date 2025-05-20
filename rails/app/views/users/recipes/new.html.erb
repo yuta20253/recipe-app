@@ -1,30 +1,32 @@
-<h2>新しいレシピ登録</h2>
-<div>
-  <%= form_with model: [:users, @recipe], method: :post, local: true do |form| %>
-    <div>
-      <%= form.label :title, "レシピ名" %>
-      <%= form.text_field :title %>
-    </div>
-    <div>
-      <%= form.label :description, "説明" %>
-      <%= form.text_area :description %>
-    </div>
-    <div>
-      <%= form.label :cooking_time, "調理時間" %>
-      <%= form.text_field :cooking_time %>分
-    </div>
-    <div>
-      <%= form.label :difficulty, "難易度" %>
-      <%= form.select :difficulty, [["easy", "easy"], ["medium", "medium"], ["hard", "hard"]] %>
-    </div>
-    <div>
-      <%= form.label :total_time, "合計時間" %>
-      <%= form.text_field :total_time %>分
-    </div>
-    <div>
-      <%= form.label :ingredient_ids, "材料を選ぶ" %>
-      <%= form.collection_select(:ingredient_ids, Ingredient.all, :id, :name, {}, { multiple: true, size: 8 }) %>
-    </div>
-    <%= form.button "登録" %>
-  <% end %>
+<div class="container">
+  <h2>新しいレシピ登録</h2>
+  <div>
+    <%= form_with model: [:users, @recipe], method: :post, local: true do |form| %>
+      <div>
+        <%= form.label :title, "レシピ名" %>
+        <%= form.text_field :title %>
+      </div>
+      <div>
+        <%= form.label :description, "説明" %>
+        <%= form.text_area :description %>
+      </div>
+      <div>
+        <%= form.label :cooking_time, "調理時間" %>
+        <%= form.text_field :cooking_time %>分
+      </div>
+      <div>
+        <%= form.label :difficulty, "難易度" %>
+        <%= form.select :difficulty, [["easy", "easy"], ["medium", "medium"], ["hard", "hard"]] %>
+      </div>
+      <div>
+        <%= form.label :total_time, "合計時間" %>
+        <%= form.text_field :total_time %>分
+      </div>
+      <div>
+        <%= form.label :ingredient_ids, "材料を選ぶ" %>
+        <%= form.collection_select(:ingredient_ids, Ingredient.all, :id, :name, {}, { multiple: true, size: 8 }) %>
+      </div>
+      <%= form.button "登録" %>
+    <% end %>
+  </div>
 </div>

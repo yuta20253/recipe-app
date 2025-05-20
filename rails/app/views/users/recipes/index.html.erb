@@ -28,14 +28,17 @@
     <% end %>
   </div>
   <div>
+    <div>
+      <%= link_to "マイページ", mypage_users_recipes_path, class: "btn btn-first" %>
+    </div>
+  </div>
+  <div>
     <table>
       <thead>
         <tr>
           <th>登録日</th>
           <th>レシピ</th>
           <th>詳細</th>
-          <th>編集</th>
-          <th>削除</th>
         </tr>
       </thead>
       <tbody>
@@ -44,8 +47,6 @@
             <td><%= recipe.created_at.strftime("%Y-%m") %></td>
             <td><%= recipe.title %></td>
             <td><%= link_to "詳細", users_recipe_path(recipe), class: "btn btn-first" %></td>
-            <td><%= link_to "編集", edit_users_recipe_path(recipe), class: "btn btn-first" %></td>
-            <td><%= link_to "削除", users_recipe_path(recipe), class: "btn btn-first", data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
           </tr>
         <% end %>
       <tbody>
