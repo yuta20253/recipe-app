@@ -20,7 +20,7 @@ module Users
       @recipe = Recipe.new(recipe_params)
       @recipe.user_id = current_user.id
       if @recipe.save
-        redirect_to [:users, :recipes]
+        redirect_to %i[users recipes]
       else
         logger.debug "保存失敗: #{@recipe.errors.full_messages}"
         render 'new'
@@ -39,7 +39,21 @@ module Users
       end
     end
 
-    def destroy; end
+    def destroy
+      if @recipe.destroy
+        redirect_to mypage_users_recipes_path
+      else
+        render 'mypage'
+      end
+    end
+
+    def mypage
+      @recipes = current_user.recipes
+                             .includes(:ingredients)
+                             .search_recipe_name(params[:title])
+                             .select_difficulty(params[:difficulty])
+                             .registration_month(params[:created_at])
+    end
 
     private
 
