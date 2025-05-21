@@ -20,11 +20,17 @@ module Users
       @recipe = Recipe.new(recipe_params)
       @recipe.user_id = current_user.id
       if @recipe.save
-        redirect_to %i[users recipes]
+        redirect_to %i[users recipes], notice: 'レシピを保存しました。'
       else
         logger.debug "保存失敗: #{@recipe.errors.full_messages}"
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
+    rescue ArgumentError => e
+      raise e unless e.message.include?('is not a valid difficulty')
+
+      @recipe ||= Recipe.new
+      @recipe.errors.add(:difficulty, '難易度はeasy、medium、hardのいずれかを選択してください。')
+      render 'new', status: :unprocessable_entity
     end
 
     def show; end
@@ -33,10 +39,16 @@ module Users
 
     def update
       if @recipe.update(recipe_params)
-        redirect_to [:users, @recipe]
+        redirect_to [:users, @recipe], notice: 'レシピの編集が完了しました。'
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
       end
+    rescue ArgumentError => e
+      raise e unless e.message.include?('is not a valid difficulty')
+
+      @recipe ||= Recipe.new
+      @recipe.errors.add(:difficulty, '難易度はeasy、medium、hardのいずれかを選択してください。')
+      render 'new', status: :unprocessable_entity
     end
 
     def destroy

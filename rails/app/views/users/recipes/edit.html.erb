@@ -6,6 +6,9 @@
         <%= form.label :title, "レシピ名" %>
         <%= form.text_field :title %>
       </div>
+      <% if @recipe.errors[:title].any? %>
+        <span class="error"><%= @recipe.errors[:title].first %></span>
+      <% end %>
       <div>
         <%= form.label :description, "説明" %>
         <%= form.text_area :description %>
@@ -18,6 +21,9 @@
         <%= form.label :difficulty, "難易度" %>
         <%= form.select :difficulty, [["easy", "easy"], ["medium", "medium"], ["hard", "hard"]] %>
       </div>
+      <% if @recipe.errors[:difficulty].any? %>
+        <span class="error"><%= @recipe.errors[:difficulty].first %></span>
+      <% end %>
       <div>
         <h3>現在選択されている食材</h3>
         <ul>
