@@ -17,8 +17,11 @@ module Users
     end
 
     def create
+      formatted_instructions = format_instructions(params[:recipe][:instructions])
+      @recipe = Recipe.new(recipe_params.merge(instructions: formatted_instructions))
       @recipe = Recipe.new(recipe_params)
       @recipe.user_id = current_user.id
+      @recipe.instructions = recipe_params[:instructions].reject(&:blank?).join("\n")
       if @recipe.save
         redirect_to %i[users recipes], notice: 'レシピを保存しました。'
       else
@@ -38,7 +41,8 @@ module Users
     def edit; end
 
     def update
-      if @recipe.update(recipe_params)
+      formatted_instructions = format_instructions(params[:recipe][:instructions])
+      if @recipe.update(recipe_params.merge(instructions: formatted_instructions))
         redirect_to [:users, @recipe], notice: 'レシピの編集が完了しました。'
       else
         render 'edit', status: :unprocessable_entity
@@ -77,13 +81,17 @@ module Users
       params.require(:recipe).permit(
         :title,
         :description,
-        :instructions,
         :cooking_time,
         :total_time,
         :servings,
         :difficulty,
+        instructions: [],
         ingredient_ids: []
       )
+    end
+
+    def format_instructions(raw_steps)
+      raw_steps.reject(&:blank?).each_with_index.map { |step, i| "#{i + 1}. #{step}" }.join("\n")
     end
   end
 end
