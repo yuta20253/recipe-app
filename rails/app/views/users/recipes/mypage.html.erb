@@ -1,57 +1,35 @@
-<div class="container">
-  <h2>マイページ</h2>
-  <div>
-    <%= link_to "新しいレシピを登録", :new_users_recipe, class: "btn btn-first" %>
-  </div>
-  <div>
-    <%= form_with url: users_recipes_path, method: :get, local: true do |form| %>
-      <div>
-        <%= form.label :title, "レシピ名" %>
-        <%= form.text_field :title, value: params[:title]  %>
-      </div>
-      <div>
-        <%= form.label :difficulty, "難易度" %>
-        <%= form.select :difficulty, Recipe.distinct.pluck(:difficulty), include_blank: true, selected: params[:difficulty] %>
-      </div>
-      <div>
-        <%= form.label :created_at, "登録日時" %>
-        <%= form.month_field :created_at, value: params[:created_at] %>
-      </div>
-      <div class="">
-        <div>
-          <%= form.submit "検索", class: 'btn btn-first' %>
-        </div>
-        <div>
-          <%= link_to 'リセット', users_recipes_path, class: 'btn btn-first' %>
-        </div>
-      </div>
-    <% end %>
-  </div>
-  <div>
-    <table>
-      <thead>
-        <tr>
-          <th>登録日</th>
-          <th>レシピ</th>
-          <th>詳細</th>
-          <th>編集</th>
-          <th>削除</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @recipes.each do |recipe| %>
+<div class="container d-flex justify-content-center">
+  <div class="w-100">
+    <h2 class="text-center mb-3">マイページ</h2>
+    <div class="w-75 d-flex justify-content-end text-end mb-3 gap-2 mx-auto">
+      <%= link_to "新しいレシピを登録", :new_users_recipe, class: "btn btn-first text-bg-primary" %>
+    </div>
+    <div class="w-auto">
+      <table class="w-100 table">
+        <thead>
           <tr>
-            <td><%= recipe.created_at.strftime("%Y-%m") %></td>
-            <td><%= recipe.title %></td>
-            <td><%= link_to "詳細", users_recipe_path(recipe), class: "btn btn-first" %></td>
-            <td><%= link_to "編集", edit_users_recipe_path(recipe), class: "btn btn-first" %></td>
-            <td><%= link_to "削除", users_recipe_path(recipe), class: "btn btn-first", data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
+            <th class="text-center">登録日</th>
+            <th class="text-center">レシピ</th>
+            <th class="text-center"></th>
+            <th class="text-center"></th>
+            <th class="text-center"></th>
           </tr>
-        <% end %>
-      <tbody>
-    </table>
-  </div>
-  <div>
-    <%= link_to "ユーザートップ", users_path, class: "btn btn-first" %>
+        </thead>
+        <tbody>
+          <% @recipes.each do |recipe| %>
+            <tr>
+              <td class="text-center"><%= recipe.created_at.strftime("%Y-%m") %></td>
+              <td class="text-center"><%= recipe.title %></td>
+              <td class="text-center"><%= link_to "詳細", users_recipe_path(recipe), class: "btn btn-first text-bg-primary" %></td>
+              <td class="text-center"><%= link_to "編集", edit_users_recipe_path(recipe), class: "btn btn-first text-bg-primary" %></td>
+              <td class="text-center"><%= link_to "削除", users_recipe_path(recipe), class: "btn btn-first text-bg-primary", data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
+            </tr>
+          <% end %>
+        <tbody>
+      </table>
+    </div>
+    <div class="w-75 justify-content-end text-end mx-auto">
+      <%= link_to "ユーザートップ", users_path, class: "btn btn-first text-bg-primary px-3" %>
+    </div>
   </div>
 </div>
