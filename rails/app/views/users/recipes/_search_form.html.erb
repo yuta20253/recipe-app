@@ -1,0 +1,24 @@
+<%= form_with url: users_recipes_path, method: :get, local: true do |form| %>
+  <div class="d-flex justify-content-center align-items-center mb-3">
+    <div>
+      <%= form.label :title, "レシピ名:", class: "mx-2" %>
+      <%= form.text_field :title, value: params[:title], class: "mx-2" %>
+    </div>
+    <div>
+      <%= form.label :difficulty, "難易度:", class: "mx-2" %>
+      <%= form.select :difficulty, Recipe.distinct.pluck(:difficulty), include_blank: true, selected: params[:difficulty], class: "me-2" %>
+    </div>
+    <div>
+      <%= form.label :created_at, "登録日時:", class: "mx-4" %>
+      <%= form.month_field :created_at, value: params[:created_at], class: "mr-2" %>
+    </div>
+    <div class="d-flex justify-content-end">
+      <div class="me-2">
+        <%= form.submit "検索", class: 'btn btn-first text-bg-primary mx-2' %>
+      </div>
+      <div class="ms-2">
+        <%= link_to 'リセット', users_recipes_path, class: 'btn btn-first text-bg-primary mx-2' %>
+      </div>
+    </div>
+  </div>
+<% end %>

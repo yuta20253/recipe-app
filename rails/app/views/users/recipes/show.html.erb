@@ -1,48 +1,63 @@
-<div>
-  <div>
-    <div>
-      <div>
-       今日のレシピ
-      </div>
-      <div>
-        <h1><%= @recipe.title %></h1>
-      </div>
-      <div>
-        <p><%= @recipe.description %></p>
-        <span>
-          <img>
-        </span>
-        <p><span>登録者:</span><%= @recipe.user.family_name + @recipe.user.given_name %></p>
-      </div>
-      <div>
+<div class="container justify-content-center">
+  <div class="w-100 mb-3">
+    <h2 class="text-center">今日のレシピ</h2>
+    <div class="w-auto">
+      <h3 class="text-center"><%= @recipe.title %></h3>
+    </div>
+    <div class="w-auto mb-3">
+      <% if @recipe.description.present? %>
         <div>
-          <div>
-            <div>
-              <div>調理時間:<span><%= @recipe.cooking_time %>分</span></div>
-              <div>難易度:<span><%= @recipe.difficulty %></span></div>
-            </div>
-            <div>
-              <p><%= simple_format(@recipe.instructions) %></p>
+          <% @recipe.description.split(/\r?\n/).each do |line| %>
+            <p class="text-center"><%= line %></p>
+          <% end %>
+        </div>
+      <% else %>
+        <div>
+          <p class="text-center"></p>
+        </div>
+      <% end %>
+      <span>
+        <img>
+      </span>
+      <p class="w-75 text-end"><span class="mx-2">登録者:</span><%= @recipe.user.family_name + @recipe.user.given_name %></p>
+    </div>
+    <div class="w-auto">
+      <div class="justify-content-center">
+        <div>
+          <div class="d-flex w-50 mx-auto justify-content-start mb-3">
+            <div class="justify-content-center text-center">調理時間:<span class="mx-4"><%= @recipe.cooking_time %>分</span></div>
+            <div class="justify-content-center text-center">難易度:<span class="mx-3"><%= @recipe.difficulty %></span></div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <% if @recipe.instructions.present? %>
+              <div class="w-50 p-3 text-center border text-bg-white">
+                <ol class="text-start p-2">
+                  <% @recipe.instructions.to_s.split("\n").each do |line| %>
+                    <li><%= line.gsub(/^\d+\.\s*/, '')  %></li>
+                  <% end %>
+                </ol>
+              </div>
+            <% else %>
+              <div class="w-50 p-3 text-center border text-bg-white">
+                <p class="text-start p-2"></p>
+              </div>
+            <% end %>
+            <div class="w-25 p-3 justify-content-start text-center border">
+              <h4 class="border border-bottom text-bg-primary">材料</h4>
+              <ol>
+                <% @recipe.ingredients.each do | ingredient | %>
+                  <li class="text-start border border-bottom"><%= ingredient.name %></li>
+                <% end %>
+              </ol>
             </div>
           </div>
-        </div>
-        <div>
-          <h3>材料</h3>
-          <ol>
-            <% @recipe.ingredients.each do | ingredient | %>
-              <li><%= ingredient.name %></li>
-            <% end %>
-          </ol>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div>
-  <div>
-    <%= link_to "レシピ一覧", users_recipes_path, class: "btn btn-first" %>
-  </div>
-  <div>
-    <%= link_to "編集", edit_users_recipe_path(@recipe), class: "btn btn-first" %>
+  <div class="d-flex w-75 mx-auto justify-content-end mb-3">
+    <div>
+      <%= link_to "レシピ一覧", users_recipes_path, class: "btn btn-first text-bg-primary" %>
+    </div>
   </div>
 </div>

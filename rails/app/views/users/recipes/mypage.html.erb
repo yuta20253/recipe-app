@@ -1,16 +1,8 @@
 <div class="container d-flex justify-content-center">
   <div class="w-100">
-    <h2 class="text-center mb-3">レシピ一覧</h2>
+    <h2 class="text-center mb-3">マイページ</h2>
     <div class="w-75 d-flex justify-content-end text-end mb-3 gap-2 mx-auto">
-      <div class="d-inline-block">
-        <%= link_to "新しいレシピを登録", :new_users_recipe, class: "btn btn-first text-bg-primary" %>
-      </div>
-      <div class="d-inline-block">
-        <%= link_to "マイページ", mypage_users_recipes_path, class: "btn btn-first text-bg-primary" %>
-      </div>
-    </div>
-    <div>
-      <%= render 'search_form' %>
+      <%= link_to "新しいレシピを登録", :new_users_recipe, class: "btn btn-first text-bg-primary" %>
     </div>
     <div class="w-auto">
       <table class="w-100 table">
@@ -18,6 +10,8 @@
           <tr>
             <th class="text-center">登録日</th>
             <th class="text-center">レシピ</th>
+            <th class="text-center"></th>
+            <th class="text-center"></th>
             <th class="text-center"></th>
           </tr>
         </thead>
@@ -27,6 +21,8 @@
               <td class="text-center"><%= recipe.created_at.strftime("%Y-%m") %></td>
               <td class="text-center"><%= recipe.title %></td>
               <td class="text-center"><%= link_to "詳細", users_recipe_path(recipe), class: "btn btn-first text-bg-primary" %></td>
+              <td class="text-center"><%= link_to "編集", edit_users_recipe_path(recipe), class: "btn btn-first text-bg-primary" %></td>
+              <td class="text-center"><%= link_to "削除", users_recipe_path(recipe), class: "btn btn-first text-bg-primary", data: { turbo_method: :delete, turbo_confirm: "本当に削除して良いですか？" } %></td>
             </tr>
           <% end %>
         <tbody>

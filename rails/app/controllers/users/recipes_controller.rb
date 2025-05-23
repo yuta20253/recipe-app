@@ -17,14 +17,23 @@ module Users
     end
 
     def create
+      formatted_instructions = format_instructions(params[:recipe][:instructions])
+      @recipe = Recipe.new(recipe_params.merge(instructions: formatted_instructions))
       @recipe = Recipe.new(recipe_params)
       @recipe.user_id = current_user.id
+      @recipe.instructions = recipe_params[:instructions].reject(&:blank?).join("\n")
       if @recipe.save
-        redirect_to [:users, :recipes]
+        redirect_to %i[users recipes], notice: 'レシピを保存しました。'
       else
         logger.debug "保存失敗: #{@recipe.errors.full_messages}"
-        render 'new'
+        render 'new', status: :unprocessable_entity
       end
+    rescue ArgumentError => e
+      raise e unless e.message.include?('is not a valid difficulty')
+
+      @recipe ||= Recipe.new
+      @recipe.errors.add(:difficulty, '難易度はeasy、medium、hardのいずれかを選択してください。')
+      render 'new', status: :unprocessable_entity
     end
 
     def show; end
@@ -32,14 +41,35 @@ module Users
     def edit; end
 
     def update
-      if @recipe.update(recipe_params)
-        redirect_to [:users, @recipe]
+      formatted_instructions = format_instructions(params[:recipe][:instructions])
+      if @recipe.update(recipe_params.merge(instructions: formatted_instructions))
+        redirect_to [:users, @recipe], notice: 'レシピの編集が完了しました。'
       else
-        render 'edit'
+        render 'edit', status: :unprocessable_entity
+      end
+    rescue ArgumentError => e
+      raise e unless e.message.include?('is not a valid difficulty')
+
+      @recipe ||= Recipe.new
+      @recipe.errors.add(:difficulty, '難易度はeasy、medium、hardのいずれかを選択してください。')
+      render 'new', status: :unprocessable_entity
+    end
+
+    def destroy
+      if @recipe.destroy
+        redirect_to mypage_users_recipes_path
+      else
+        render 'mypage'
       end
     end
 
-    def destroy; end
+    def mypage
+      @recipes = current_user.recipes
+                             .includes(:ingredients)
+                             .search_recipe_name(params[:title])
+                             .select_difficulty(params[:difficulty])
+                             .registration_month(params[:created_at])
+    end
 
     private
 
@@ -51,13 +81,17 @@ module Users
       params.require(:recipe).permit(
         :title,
         :description,
-        :instructions,
         :cooking_time,
         :total_time,
         :servings,
         :difficulty,
+        instructions: [],
         ingredient_ids: []
       )
+    end
+
+    def format_instructions(raw_steps)
+      raw_steps.reject(&:blank?).each_with_index.map { |step, i| "#{i + 1}. #{step}" }.join("\n")
     end
   end
 end

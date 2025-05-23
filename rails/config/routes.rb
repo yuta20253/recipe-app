@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'users', to: 'users#index'
   namespace :users do
-    resources :recipes
+    resources :recipes do
+      collection do
+        get 'mypage'
+      end
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

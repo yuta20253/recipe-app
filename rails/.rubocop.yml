@@ -29,3 +29,7 @@ Layout/LineLength:
 AllCops:
   Exclude:
     - 'db/schema.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/controllers/users/recipes_controller.rb'
