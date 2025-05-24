@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
-user = User.create!(family_name: '長澤', given_name: 'まさみ', age: 37, gender: 0, email: 'masami@example.com', password: 'password')
-# レシピデータ（実在レシピを元にしたアレンジ）
+user = User.create!(
+  family_name: '長澤',
+  given_name: 'まさみ',
+  age: 37,
+  gender: 0,
+  email: 'masami@example.com',
+  password: 'password'
+)
 
 recipes_data = [
   {
@@ -139,10 +135,13 @@ recipes_data.each_with_index do |recipe_data, _idx|
     servings: "#{rand(1..4)}人前"
   )
 
+  start_date = Time.new(2023, 1, 1)
+  end_date = Time.now.beginning_of_day - 1.day
+  random_created_at = Time.at(rand(start_date.to_i..end_date.to_i))
+  recipe.update_columns(created_at: random_created_at, updated_at: random_created_at)
+
   recipe_data[:ingredients].each do |name, quantity|
     ingredient = ingredients_by_name[name] || Ingredient.find_or_create_by!(name: name)
-
-    # ここで重複しないようfind_or_initialize_byを使いquantityをセットして保存する
     ri = RecipeIngredient.find_or_initialize_by(recipe: recipe, ingredient: ingredient)
     ri.quantity = quantity
     ri.save!
