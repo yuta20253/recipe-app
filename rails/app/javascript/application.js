@@ -1,6 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
+import "@rails/ujs"
 
 document.addEventListener("turbo:load", function () {
   const container = document.getElementById("instructions-container");
@@ -21,7 +22,7 @@ document.addEventListener("turbo:load", function () {
 
       const input = document.createElement("input");
       input.type = "text";
-      input.name = "recipe[instructions][]";
+      input.name = "users_recipe_form[instructions][]";
       input.className = "form-control";
 
       newDiv.appendChild(label);
@@ -30,7 +31,7 @@ document.addEventListener("turbo:load", function () {
   });
 
   form.addEventListener("submit", function () {
-    const inputs = document.querySelectorAll('input[name="recipe[instructions][]"]');
+    const inputs = document.querySelectorAll('input[name="users_recipe_form[instructions][]"]');
     const steps = [];
 
     inputs.forEach((input, index) => {

@@ -13,20 +13,14 @@ module Users
     end
 
     def new
-      @recipe = Recipe.new
+      @form = Users::RecipeForm.new
     end
 
     def create
-      formatted_instructions =format_instructions(recipe_params[:instructions])
-      @recipe = Recipe.new(recipe_params.merge(
-        user_id: current_user.id,
-        instructions: formatted_instructions
-      ))
-      @recipe.instructions = recipe_params[:instructions].reject(&:blank?).join("\n")
-      if @recipe.save
+      @form = Users::RecipeForm.new(recipe_params.merge(user_id: current_user.id))
+      if @form.save
         redirect_to %i[users recipes], notice: 'レシピを保存しました。'
       else
-        logger.debug "保存失敗: #{@recipe.errors.full_messages}"
         render :new, status: :unprocessable_entity
       end
     rescue ArgumentError => e
@@ -35,11 +29,13 @@ module Users
 
     def show; end
 
-    def edit; end
+    def edit
+      @form = Users::RecipeForm.new(recipe: @recipe)
+    end
 
     def update
-      formatted_instructions = format_instructions(recipe_params[:instructions])
-      if @recipe.update(recipe_params.merge(instructions: formatted_instructions))
+      @form = Users::RecipeForm.new(recipe_params, recipe: @recipe)
+      if @form.save
         redirect_to [:users, @recipe], notice: 'レシピの編集が完了しました。'
       else
         render :edit, status: :unprocessable_entity
@@ -68,7 +64,7 @@ module Users
     end
 
     def recipe_params
-      params.require(:recipe).permit(
+      params.require(:users_recipe_form).permit(
         :title,
         :description,
         :cooking_time,
@@ -85,12 +81,10 @@ module Users
     end
 
     def handle_invalid_difficulty(e, action)
-      if e.message.include?('is not a valid difficulty')
-        @recipe.errors.add(:difficulty, '難易度はeasy、medium、hardのいずれかを選択してください。')
-        render action, status: :unprocessable_entity
-      else
-        raise e
-      end
+      raise e unless e.message.include?('is not a valid difficulty')
+
+      @recipe.errors.add(:difficulty, '難易度はeasy、medium、hardのいずれかを選択してください。')
+      render action, status: :unprocessable_entity
     end
   end
 end
