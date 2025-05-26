@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'users', to: 'users#index'
   namespace :users do
     resources :recipes do
+      resource :favorite, only: [:create, :destroy]
       collection do
         get 'mypage'
       end
