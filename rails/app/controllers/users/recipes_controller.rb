@@ -10,6 +10,8 @@ module Users
                        .search_recipe_name(params[:title])
                        .select_difficulty(params[:difficulty])
                        .registration_month(params[:created_at])
+
+      @favorite_recipe_ids = current_user.favorites.where(recipe_id: @recipes.pluck(:id)).pluck(:recipe_id)
     end
 
     def new
