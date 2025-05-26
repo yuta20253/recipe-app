@@ -19,6 +19,7 @@
             <th class="text-center">登録日</th>
             <th class="text-center">レシピ</th>
             <th class="text-center"></th>
+            <th class="text-center">お気に入り</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,13 @@
               <td class="text-center"><%= recipe.created_at.strftime("%Y-%m") %></td>
               <td class="text-center"><%= recipe.title %></td>
               <td class="text-center"><%= link_to "詳細", users_recipe_path(recipe), class: "btn btn-first text-bg-primary" %></td>
+              <td class="text-center">
+                <% if @favorite_recipe_ids.include?(recipe.id) %>
+                  <%= button_to "お気に入り解除", users_recipe_favorite_path(recipe), method: :delete, class: "btn btn-warning btn-sm" %>
+                <% else %>
+                  <%= button_to "お気に入り登録", users_recipe_favorite_path(recipe), method: :post, class: "btn btn-outline-primary btn-sm" %>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         <tbody>
