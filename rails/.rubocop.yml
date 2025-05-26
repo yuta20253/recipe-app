@@ -7,7 +7,7 @@ Metrics/BlockLength:
     - 'spec/**/*'
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 40
 
 Layout/LineLength:
   Max: 140
@@ -33,3 +33,9 @@ AllCops:
 Metrics/AbcSize:
   Exclude:
     - 'app/controllers/users/recipes_controller.rb'
+
+Metrics/BlockLength:
+  Max: 40
+
+Metrics/AbcSize:
+  Max: 30

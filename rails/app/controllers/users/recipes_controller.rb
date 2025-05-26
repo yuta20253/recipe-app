@@ -82,8 +82,8 @@ module Users
       raw_steps.reject(&:blank?).each_with_index.map { |step, i| "#{i + 1}. #{step}" }.join("\n")
     end
 
-    def handle_invalid_difficulty(e, action)
-      raise e unless e.message.include?('is not a valid difficulty')
+    def handle_invalid_difficulty(exception, action)
+      raise exception unless exception.message.include?('is not a valid difficulty')
 
       @recipe.errors.add(:difficulty, '難易度はeasy、medium、hardのいずれかを選択してください。')
       render action, status: :unprocessable_entity
