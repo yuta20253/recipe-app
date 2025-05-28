@@ -6,6 +6,7 @@ module Users
     include ActiveModel::Attributes
 
     attr_reader :recipe
+    attr_accessor :image
 
     attribute :title, :string
     attribute :description, :string
@@ -16,6 +17,7 @@ module Users
     attribute :instructions, default: []
     attribute :ingredient_ids, default: []
     attribute :user_id, :integer
+    attribute :image
 
     validates :title, presence: true, length: { maximum: 20 }
     validates :difficulty, presence: true, inclusion: { in: %w[easy medium hard] }
@@ -23,7 +25,7 @@ module Users
     def initialize(attributes = {}, recipe: nil)
       @recipe = recipe
       attributes = attributes.to_h if attributes.respond_to?(:to_h)
-
+      attributes[:ingredient_ids] = Array(attributes[:ingredient_ids])
       if recipe
         super(default_attributes_from(recipe).merge(attributes))
       else
@@ -61,6 +63,7 @@ module Users
             user_id: user_id
           )
         end
+        @recipe.image.attach(image) if image.present?
       end
       true
     rescue StandardError => e
@@ -83,7 +86,8 @@ module Users
     private
 
     def format_instructions(raw_steps)
-      raw_steps.reject(&:blank?).each_with_index.map { |step, i| "#{i + 1}. #{step}" }.join("\n")
+      steps = raw_steps.is_a?(Array) ? raw_steps : raw_steps.to_s.lines.map(&:chomp)
+      steps.reject(&:blank?).each_with_index.map { |step, i| "#{i + 1}. #{step}" }.join("\n")
     end
 
     def default_attributes_from(recipe)

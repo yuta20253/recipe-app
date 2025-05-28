@@ -6,6 +6,7 @@ class Recipe < ApplicationRecord
   has_many :ingredients, through: :recipe_ingredients
   has_many :favorites
   has_many :favorited_by, through: :favorites, source: :user
+  has_one_attached :image
 
   accepts_nested_attributes_for :ingredients
 

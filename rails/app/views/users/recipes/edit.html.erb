@@ -2,7 +2,7 @@
   <div class="w-100">
     <h2 class="text-center mb-3">レシピ編集</h2>
     <div class="w-50 justify-content-center align-items-center mx-auto border-primary">
-      <%= form_with model: @form, url: users_recipe_path(@form.recipe), method: :patch, local: true do |form| %>
+      <%= form_with model: @form, scope: :users_recipe_form, url: users_recipe_path(@form.recipe), method: :patch, local: true, multipart: true do |form| %>
         <div class="justify-content-center align-items-center my-2 py-2">
           <%= form.label :title, "レシピ名" %>
           <%= form.text_field :title, class: "form-control" %>
@@ -10,6 +10,10 @@
         <% if @form.errors[:title].any? %>
           <span class="error"><%= @form.errors[:title].first %></span>
         <% end %>
+        <div class="justify-content-center align-items-center my-2 py-2">
+          <%= form.label :image, "レシピ画像" %>
+          <%= form.file_field :image, class: "form-control" %>
+        </div>
         <div class="justify-content-center align-items-center my-2 py-2">
           <%= form.label :description, "説明" %>
           <%= form.text_area :description, class: "form-control", rows: 5  %>
@@ -60,6 +64,16 @@
         <div class="w-75 justify-content-end text-end mx-auto">
           <%= form.button "更新", class: "btn btn-first text-bg-primary px-3" %>
         </div>
+        <% if @form.errors.any? %>
+  <div class="errors">
+    <h2>エラーがあります：</h2>
+    <ul>
+      <% @form.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
       <% end %>
     </div>
   </div>

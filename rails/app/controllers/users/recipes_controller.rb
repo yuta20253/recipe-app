@@ -36,7 +36,7 @@ module Users
     end
 
     def update
-      @form = Users::RecipeForm.new(recipe_params, recipe: @recipe)
+      @form = Users::RecipeForm.new(recipe_params.merge(user_id: current_user.id), recipe: @recipe)
       if @form.save
         redirect_to [:users, @recipe], notice: 'レシピの編集が完了しました。'
       else
@@ -73,13 +73,10 @@ module Users
         :total_time,
         :servings,
         :difficulty,
+        :image,
         instructions: [],
-        ingredient_ids: []
+        ingredient_ids: [],
       )
-    end
-
-    def format_instructions(raw_steps)
-      raw_steps.reject(&:blank?).each_with_index.map { |step, i| "#{i + 1}. #{step}" }.join("\n")
     end
 
     def handle_invalid_difficulty(exception, action)
