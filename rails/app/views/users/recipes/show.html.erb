@@ -16,9 +16,11 @@
           <p class="text-center"></p>
         </div>
       <% end %>
-      <span>
-        <img>
-      </span>
+      <% if @recipe.image.attached? %>
+      <div class="w-50 mx-auto">
+        <%= image_tag @recipe.image, class: "img-fluid rounded", alt: @recipe.title %>
+      </div>
+      <% end %>
       <p class="w-75 text-end"><span class="mx-2">登録者:</span><%= @recipe.user.family_name + @recipe.user.given_name %></p>
     </div>
     <div class="w-auto">
