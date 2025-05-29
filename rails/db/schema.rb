@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_27_151305) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_29_151740) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -55,6 +55,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_151305) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "recipe_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "fk_rails_3cb3aadf1c"
+  end
+
   create_table "recipe_ingredients", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "recipe_id", null: false
     t.bigint "ingredient_id", null: false
@@ -77,6 +85,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_151305) do
     t.integer "difficulty", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "recipe_category_id", null: false
+    t.index ["recipe_category_id"], name: "index_recipes_on_recipe_category_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
@@ -100,7 +110,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_151305) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "favorites", "recipes"
   add_foreign_key "favorites", "users"
+  add_foreign_key "recipe_categories", "recipe_categories", column: "parent_id"
   add_foreign_key "recipe_ingredients", "ingredients"
   add_foreign_key "recipe_ingredients", "recipes"
+  add_foreign_key "recipes", "recipe_categories"
   add_foreign_key "recipes", "users"
 end
