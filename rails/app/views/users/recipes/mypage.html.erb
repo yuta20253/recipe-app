@@ -28,6 +28,11 @@
         <tbody>
       </table>
     </div>
+    <nav aria-label="Pagination">
+      <ul class="pagination justify-content-center">
+        <%= paginate @recipes, window: 2, outer_window: 0, left: 0, right: 0 %>
+      </ul>
+    </nav>
     <div class="w-75 justify-content-end text-end mx-auto">
       <%= link_to "ユーザートップ", users_path, class: "btn btn-first text-bg-primary px-3" %>
     </div>

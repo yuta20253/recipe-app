@@ -60,6 +60,8 @@ module Users
                              .search_recipe_name(params[:title])
                              .select_difficulty(params[:difficulty])
                              .registration_month(params[:created_at])
+                             .page(params[:page])
+                             .per(5)
     end
 
     private
