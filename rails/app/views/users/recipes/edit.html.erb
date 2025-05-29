@@ -38,11 +38,12 @@
         <div class="justify-content-center align-items-center my-2 py-2">
           <label>作り方（手順ごとに追加してください）:</label>
           <div id="instructions-container">
-            <div class="instruction_field mb-2">
+            <div class="instruction-field mb-2">
               <label>手順 1:</label>
               <input type="text" name="recipe[instructions][]" class="form-control">
             </div>
           </div>
+          <%= form.hidden_field :compiled_instructions, id: "compiled_instructions" %>
           <button type="button" class="btn btn-outline-primary mt-2" id="add-step-button">＋ 手順追加</button>
           <input type="hidden" name="recipe[instructions_text]" id="compiled_instructions">
         </div>

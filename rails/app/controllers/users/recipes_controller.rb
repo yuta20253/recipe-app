@@ -10,6 +10,9 @@ module Users
                        .search_recipe_name(params[:title])
                        .select_difficulty(params[:difficulty])
                        .registration_month(params[:created_at])
+                       .order(:created_at)
+                       .page(params[:page])
+                       .per(5)
 
       @favorite_recipe_ids = current_user.favorites.where(recipe_id: @recipes.pluck(:id)).pluck(:recipe_id)
     end
@@ -57,6 +60,8 @@ module Users
                              .search_recipe_name(params[:title])
                              .select_difficulty(params[:difficulty])
                              .registration_month(params[:created_at])
+                             .page(params[:page])
+                             .per(5)
     end
 
     private

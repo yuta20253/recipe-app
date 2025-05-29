@@ -1,11 +1,11 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
-import "@rails/ujs"
 
 document.addEventListener("turbo:load", function () {
   const container = document.getElementById("instructions-container");
   const addButton = document.getElementById("add-step-button");
+  if (!addButton) return;
   const form = document.querySelector("form");
   const hiddenInput = document.getElementById("compiled_instructions");
   let stepCount = 1;
