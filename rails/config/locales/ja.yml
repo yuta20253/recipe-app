@@ -1,0 +1,7 @@
+ja:
+  enums:
+    recipe:
+      difficulty:
+        easy: 簡単
+        medium: 普通
+        hard: 難しい
