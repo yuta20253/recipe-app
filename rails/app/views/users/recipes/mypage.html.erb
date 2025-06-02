@@ -9,6 +9,7 @@
         <thead>
           <tr>
             <th class="text-center">登録日</th>
+            <th class="text-center">カテゴリ</th>
             <th class="text-center">レシピ</th>
             <th class="text-center"></th>
             <th class="text-center"></th>
@@ -19,6 +20,7 @@
           <% @recipes.each do |recipe| %>
             <tr>
               <td class="text-center"><%= recipe.created_at.strftime("%Y-%m") %></td>
+              <td class="text-center"><%= recipe.recipe_category.name %></td>
               <td class="text-center"><%= recipe.title %></td>
               <td class="text-center"><%= link_to "詳細", users_recipe_path(recipe), class: "btn btn-first text-bg-primary" %></td>
               <td class="text-center"><%= link_to "編集", edit_users_recipe_path(recipe), class: "btn btn-first text-bg-primary" %></td>

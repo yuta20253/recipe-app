@@ -6,7 +6,7 @@
     </div>
     <div>
       <%= form.label :difficulty, "難易度:", class: "mx-2" %>
-      <%= form.select :difficulty, Recipe.distinct.pluck(:difficulty), include_blank: true, selected: params[:difficulty], class: "me-2" %>
+      <%= form.select :difficulty, Recipe.difficulties_i18n.invert.to_a, include_blank: true, selected: params[:difficulty], class: "me-2" %>
     </div>
     <div>
       <%= form.label :created_at, "登録日時:", class: "mx-4" %>

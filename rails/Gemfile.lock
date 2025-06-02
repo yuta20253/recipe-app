@@ -154,6 +154,8 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
+    enum_help (0.0.19)
+      activesupport (>= 3.0.0)
     erubi (1.13.1)
     ffi (1.17.2-x86_64-linux-gnu)
     globalid (1.2.1)
@@ -416,6 +418,7 @@ DEPENDENCIES
   debug
   devise
   devise-i18n
+  enum_help
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
@@ -426,6 +429,7 @@ DEPENDENCIES
   pry-rails
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
+  rails-i18n
   reek
   rspec-rails
   rubocop

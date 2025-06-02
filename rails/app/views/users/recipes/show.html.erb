@@ -28,7 +28,8 @@
         <div>
           <div class="d-flex w-50 mx-auto justify-content-start mb-3">
             <div class="justify-content-center text-center">調理時間:<span class="mx-4"><%= @recipe.cooking_time %>分</span></div>
-            <div class="justify-content-center text-center">難易度:<span class="mx-3"><%= @recipe.difficulty %></span></div>
+            <div class="justify-content-center text-center">難易度:<span class="mx-3"><%= @recipe.difficulty_i18n %></span></div>
+            <div class="justify-content-center text-center">カテゴリ:<span class="mx-3"><%= @recipe.recipe_category.name %></span></div>
           </div>
           <div class="d-flex justify-content-center">
             <% if @recipe.instructions.present? %>
