@@ -51,6 +51,10 @@ gem 'devise'
 # devise を日本語化する
 gem 'devise-i18n'
 
+gem 'rails-i18n'
+
+gem 'enum_help'
+
 gem 'tailwindcss-rails', '~> 4.2'
 
 gem 'bootstrap', '~> 5.3.0'
