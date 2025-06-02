@@ -17,6 +17,7 @@ module Users
     attribute :instructions, default: []
     attribute :ingredient_ids, default: []
     attribute :user_id, :integer
+    attribute :recipe_category_id, :integer
     attribute :image
 
     validates :title, presence: true, length: { maximum: 20 }
@@ -48,7 +49,8 @@ module Users
             difficulty: difficulty,
             instructions: formatted,
             ingredient_ids: ingredient_ids.reject(&:blank?),
-            user_id: user_id
+            user_id: user_id,
+            recipe_category_id: recipe_category_id
           )
         else
           @recipe = Recipe.create!(
@@ -60,7 +62,8 @@ module Users
             difficulty: difficulty,
             instructions: formatted,
             ingredient_ids: ingredient_ids.reject(&:blank?),
-            user_id: user_id
+            user_id: user_id,
+            recipe_category_id: recipe_category_id
           )
         end
         @recipe.image.attach(image) if image.present?
@@ -99,7 +102,8 @@ module Users
         servings: recipe.servings,
         difficulty: recipe.difficulty,
         instructions: recipe.instructions,
-        ingredient_ids: recipe.ingredient_ids
+        ingredient_ids: recipe.ingredient_ids,
+        recipe_category_id: recipe.recipe_category_id
       }
     end
   end

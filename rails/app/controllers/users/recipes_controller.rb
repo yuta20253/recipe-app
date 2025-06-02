@@ -79,6 +79,7 @@ module Users
         :servings,
         :difficulty,
         :image,
+        :recipe_category_id,
         instructions: [],
         ingredient_ids: [],
       )
